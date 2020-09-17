@@ -8,6 +8,12 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static('public'));
 
-let server = app.listen(port, function(){
-    console.log("Express server has started on port "+ port)
+//Capture All 404 errors
+app.use(function (req, res, next) {
+    res.status(404).send('Unable to find the requested resource!');
+});
+
+
+let server = app.listen(port, function () {
+    console.log("Express server has started on port " + port)
 });
