@@ -1,361 +1,422 @@
+const koriData = [{
+        "url": "kori002",
+        "subtitle": "2호기"
+    },
+    {
+        "url": "kori003",
+        "subtitle": "3호기"
+    },
+    {
+        "url": "kori004",
+        "subtitle": "4호기"
+    },
+    {
+        "url": "kori011",
+        "subtitle": "신1호기"
+    },
+    {
+        "url": "kori012",
+        "subtitle": "신2호기"
+    }
+]
+
+const hanbitData = [{
+        "url": "hanbit001",
+        "subtitle": "1호기"
+    },
+    {
+        "url": "hanbit002",
+        "subtitle": "2호기"
+    },
+    {
+        "url": "hanbit003",
+        "subtitle": "3호기"
+    },
+    {
+        "url": "hanbit004",
+        "subtitle": "4호기"
+    },
+    {
+        "url": "hanbit005",
+        "subtitle": "5호기"
+    },
+    {
+        "url": "hanbit006",
+        "subtitle": "6호기"
+    }
+]
+
+const wolsungData = [{
+        "url": "wolsung001",
+        "subtitle": "1호기"
+    },
+    {
+        "url": "wolsung002",
+        "subtitle": "2호기"
+    },
+    {
+        "url": "wolsung003",
+        "subtitle": "3호기"
+    },
+    {
+        "url": "wolsung004",
+        "subtitle": "4호기"
+    },
+    {
+        "url": "wolsung011",
+        "subtitle": "신1호기"
+    },
+    {
+        "url": "wolsung012",
+        "subtitle": "신2호기"
+    }
+]
+
+const hanwoolData = [{
+        "url": "hanwool001",
+        "subtitle": "1호기"
+    },
+    {
+        "url": "hanwool002",
+        "subtitle": "2호기"
+    },
+    {
+        "url": "hanwool003",
+        "subtitle": "3호기"
+    },
+    {
+        "url": "hanwool004",
+        "subtitle": "4호기"
+    },
+    {
+        "url": "hanwool005",
+        "subtitle": "5호기"
+    },
+    {
+        "url": "hanwool006",
+        "subtitle": "6호기"
+    }
+]
+
+const saewoolData = [{
+    "url": "saewool002",
+    "subtitle": "2호기"
+}, ]
+
+// 001  001  001  
+// 001: kori, 002: hanbit, 003: wolsung, 004: hanwool, 005: saewool
+// 001: 1호기, 002: 2호기, 003: 3호기, 004: 4호기, 005: 5회기, 006: 6호기 , 011: 신1호기, 012: 신2호기
+// 001: 첫번째 발생이력, 002: 두번째 발생이력
+
+
+
+const kori02Event = [{
+        "createdAt": "2019.05.10",
+        "url": "kori.002.001",
+        "values": {
+            "name": "kori03",
+            "after30": "2",
+            "after60": "3",
+            "after240": "2",
+            "afterfirefight": "3",
+            "afterkins": "2"
+        },
+        "reports": {
+            "name": "kori03",
+            "after30": "2",
+            "after60": "3",
+            "after240": "2",
+            "afterfirefight": "3",
+            "afterkins": "2"
+        }
+    },
+    {
+        "createdAt": "2019.06.10",
+        "url": "kori.002.002",
+        "values": {
+            "name": "kori03",
+            "after30": "2",
+            "after60": "3",
+            "after240": "2",
+            "afterfirefight": "3",
+            "afterkins": "2"
+        }
+    },
+    {
+        "createdAt": "2019.08.10",
+        "url": "kori.002.003",
+        "values": {
+            "name": "kori03",
+            "after30": "13",
+            "after60": "3",
+            "after240": "2",
+            "afterfirefight": "3",
+            "afterkins": "2"
+        }
+    }
+]
+
+
 module.exports = function (app) {
+
     app.get('/', function (req, res) {
-        res.render('index.html')
+        res.render('pages/home')
+    });
+
+    app.get('/reporting/:detail', function (req, res) {
+        // let name = req.params.index
+        let detail = req.params.detail
+        let tokenParts = detail.split(".");
+
+        let location = tokenParts[0]
+        let name = tokenParts[1]
+        let mdate = tokenParts[2]
+
+        console.log("location : ", location + " ,name:", name + ", mdate: ", mdate);
+
+        let result = ""
+        let select = ""
+
+        console.log("detail : ", detail);
+
+        switch (location) {
+            case "kori":
+                result = "고리";
+                break;
+            case "hanbit":
+                result = "한빛";
+                break;
+            case "wolsung":
+                result = "월성";
+                break;
+            case "hanwool":
+                result = "한울";
+                break;
+            case "saewool":
+                result = "새울";
+                break;
+        }
+
+        switch (name) {
+            case "001":
+                select = "1호기";
+                break;
+            case "002":
+                select = "2호기";
+                break;
+            case "003":
+                select = "3호기";
+                break;
+            case "004":
+                select = "4호기";
+                break;
+            case "005":
+                select = "5호기";
+                break;
+            case "006":
+                select = "6호기";
+                break;
+            case "011":
+                select = "신1호기";
+                break;
+            case "012":
+                select = "신2호기";
+                break;
+        }
+
+        let tracks = {}
+
+
+        tracks = {
+            location: result,
+            locationUrl: location,
+            name: select,
+            nameUrl: location + name,
+            human: "box2",
+            machine: "box2",
+            measurement: "box2",
+            electrical: "box2",
+            external: "box2",
+            etc: "box1",
+
+        }
+
+
+        console.log("tracks : ", tracks);
+        console.log(" kori02Event[2].values : ", kori02Event[2].values);
+
+        res.render("pages/report", {
+            tracks: tracks
+        }); // end of render 
+    }) // end of get
+
+
+    app.get('/tracking/:detail', function (req, res) {
+        // let name = req.params.index
+        let detail = req.params.detail
+        let tokenParts = detail.split(".");
+
+        let location = tokenParts[0]
+        let name = tokenParts[1]
+        let mdate = tokenParts[2]
+
+        console.log("location : ", location + " ,name:", name + ", mdate: ", mdate);
+
+        let result = ""
+        let select = ""
+
+        console.log("detail : ", detail);
+
+        switch (location) {
+            case "kori":
+                result = "고리";
+                break;
+            case "hanbit":
+                result = "한빛";
+                break;
+            case "wolsung":
+                result = "월성";
+                break;
+            case "hanwool":
+                result = "한울";
+                break;
+            case "saewool":
+                result = "새울";
+                break;
+        }
+
+        switch (name) {
+            case "001":
+                select = "1호기";
+                break;
+            case "002":
+                select = "2호기";
+                break;
+            case "003":
+                select = "3호기";
+                break;
+            case "004":
+                select = "4호기";
+                break;
+            case "005":
+                select = "5호기";
+                break;
+            case "006":
+                select = "6호기";
+                break;
+            case "011":
+                select = "신1호기";
+                break;
+            case "012":
+                select = "신2호기";
+                break;
+        }
+
+        let tracks = {}
+
+
+        tracks = {
+            location: result,
+            locationUrl: location,
+            name: select,
+            nameUrl: location + name,
+            value: kori02Event[2].values
+        }
+
+
+        console.log("tracks : ", tracks);
+        console.log(" kori02Event[2].values : ", kori02Event[2].values);
+
+        res.render("pages/tracking", {
+            tracks: tracks
+        }); // end of render 
+    }) // end of get
+
+    app.get('/operation/:detail', function (req, res) {
+        // let name = req.params.index
+        let detail = req.params.detail
+        console.log("detail : ", detail);
+
+        let events = {}
+
+        switch (detail) {
+            case 'kori002':
+                events = {
+                    name: "고리",
+                    title: "2호기",
+                    value: kori02Event
+                }
+                break;
+            case 'b':
+                break;
+            default:
+                res.status(404).send('Unable to find the requested resource!');
+                break;
+        }
+
+        console.log("events : ", events);
+
+        res.render("pages/detail", {
+            events: events
+        }); // end of render 
+    }) // end of get
+
+
+    app.get('/location/:loc/', function (req, res) {
+        // let name = req.params.index
+        let location = req.params.loc
+        console.log("location : ", location);
+
+        let lists = {}
+
+        switch (location) {
+            case 'kori':
+                lists = {
+                    title: '고리',
+                    image: '/img/kori.jpg',
+                    contents: '고리원자력발전소는 1992년부터 운영을 시작했습니다.',
+                    value: koriData
+                };
+                break;
+            case 'hanbit':
+                lists = {
+                    title: '한빛',
+                    image: '/img/hanbit.jpg',
+                    value: hanbitData
+                };
+                break;
+            case 'wolsung':
+                lists = {
+                    title: '월성',
+                    image: '/img/wolsung.jpg',
+                    value: wolsungData
+                };
+                break;
+            case 'hanwool':
+                lists = {
+                    title: '한울',
+                    image: '/img/hanwool.jpg',
+                    value: hanwoolData
+                };
+                break;
+            case 'saewool':
+                lists = {
+                    title: '새울',
+                    image: '/img/saewool.jpg',
+                    value: saewoolData
+                };
+                break;
+            default:
+                res.status(404).send('Unable to find the requested resource!');
+                break;
+        }
+
+        console.log("lists : ", lists);
+
+
+        res.render("pages/location", {
+            lists: lists
+        });
     });
 
-    app.get('/about', function (req, res) {
-        res.render('about.html');
-    });
-
-    app.get('/wolsung/', function (req, res) {
-        res.render('wolsung.html');
-    });
-
-    app.get('/wolsung/1', function (req, res) {
-        res.render('wolsung-1.html');
-    });
-
-    app.get('/wolsung/1/20200510/2', function (req, res) {
-        res.render('wolsung-1-20200510-2.html');
-    });
-
-    app.get('/wolsung/1/20200816/2', function (req, res) {
-        res.render('wolsung-1-20200816-2.html');
-    });
-
-    app.get('/wolsung/1/20200816/3', function (req, res) {
-        res.render('wolsung-1-20200816-3.html');
-    });
-
-    app.get('/wolsung/02', function (req, res) {
-        res.render('wolsung-02.html');
-    });
-
-    app.get('/wolsung/2/20190906/2', function (req, res) {
-        res.render('wolsung-02-20190906-2.html');
-    });
-
-    app.get('/wolsung/2/20190906/3', function (req, res) {
-        res.render('wolsung-02-20190906-3.html');
-    });
-
-    app.get('/wolsung/2', function (req, res) {
-        res.render('wolsung-2');
-    });
-
-    app.get('/wolsung/3', function (req, res) {
-        res.render('wolsung-3.html');
-    });
-
-    app.get('/wolsung/3/20190121/2', function (req, res) {
-        res.render('wolsung-3-20190121-2.html');
-    });
-
-    app.get('/wolsung/3/20190121/3', function (req, res) {
-        res.render('wolsung-3-20190121-3.html');
-    });
-
-    app.get('/wolsung/4', function (req, res) {
-        res.render('wolsung-4.html');
-    });
-
-    app.get('/hanbit/', function (req, res) {
-        res.render('hanbit.html');
-    });
-
-    app.get('/hanbit/1', function (req, res) {
-        res.render('hanbit-1.html');
-    });
-
-    app.get('/hanbit/1/20190103/2', function (req, res) {
-        res.render('hanbit-1-20190103-2.html');
-    });
-
-    app.get('/hanbit/1/20190103/3', function (req, res) {
-        res.render('hanbit-1-20190103-3.html');
-    });
-
-    app.get('/hanbit/1/20190309/2', function (req, res) {
-        res.render('hanbit-1-20190309-2.html');
-    });
-
-    app.get('/hanbit/1/20190309/3', function (req, res) {
-        res.render('hanbit-1-20190309-3.html');
-    });
-
-    app.get('/hanbit/1/20190510/2', function (req, res) {
-        res.render('hanbit-1-20190510-2.html');
-    });
-
-    app.get('/hanbit/1/20190510/3', function (req, res) {
-        res.render('hanbit-1-20190510-3.html');
-    });
-
-    app.get('/hanbit/2', function (req, res) {
-        res.render('hanbit-2.html');
-    });
-
-    app.get('/hanbit/2/20190124/2', function (req, res) {
-        res.render('hanbit-2-20190124-2.html');
-    });
-
-    app.get('/hanbit/2/20190124/3', function (req, res) {
-        res.render('hanbit-2-20190124-3.html');
-    });
-
-    app.get('/hanbit/3', function (req, res) {
-        res.render('hanbit-3.html');
-    });
-
-    app.get('/hanbit/3/20190711/2', function (req, res) {
-        res.render('hanbit-3-20190711-2.html');
-    });
-
-    app.get('/hanbit/3/20190711/3', function (req, res) {
-        res.render('hanbit-3-20190711-3.html');
-    });
-
-    app.get('/hanbit/4', function (req, res) {
-        res.render('hanbit-4.html');
-    });
-
-    app.get('/hanbit/4/20190711/2', function (req, res) {
-        res.render('hanbit-4-20190711-2.html');
-    });
-
-    app.get('/hanbit/4/20190711/3', function (req, res) {
-        res.render('hanbit-4-20190711-3.html');
-    });
-
-    app.get('/hanbit/5', function (req, res) {
-        res.render('hanbit-5.html');
-    });
-
-    app.get('/hanbit/6', function (req, res) {
-        res.render('hanbit-6.html');
-    });
-
-    app.get('/hanwool/', function (req, res) {
-        res.render('hanwool.html');
-    });
-
-    app.get('/hanwool/1', function (req, res) {
-        res.render('hanwool-1.html');
-    });
-
-    app.get('/hanwool/2', function (req, res) {
-        res.render('hanwool-2.html');
-    });
-
-    app.get('/hanwool/2/20190704/2', function (req, res) {
-        res.render('hanwool-2-20190704-2.html');
-    });
-
-    app.get('/hanwool/2/20190704/3', function (req, res) {
-        res.render('hanwool-2-20190704-3.html');
-    });
-
-    app.get('/hanwool/3', function (req, res) {
-        res.render('hanwool-3.html');
-    });
-
-    app.get('/hanwool/4', function (req, res) {
-        res.render('hanwool-4.html');
-    });
-
-    app.get('/hanwool/5', function (req, res) {
-        res.render('hanwool-5.html');
-    });
-
-    app.get('/hanwool/6', function (req, res) {
-        res.render('hanwool-6.html');
-    });
-
-    app.get('/hanwool/6/20190308/2', function (req, res) {
-        res.render('hanwool-6-20190308-2.html');
-    });
-
-    app.get('/hanwool/6/20190308/3', function (req, res) {
-        res.render('hanwool-6/20190308/3.html');
-    });
-
-    app.get('/hanwool/6/20200719/2', function (req, res) {
-        res.render('hanwool-6-20200719-2.html');
-    });
-
-    app.get('/hanwool/6/20200719/3', function (req, res) {
-        res.render('hanwool-6/20200719/3.html');
-    });
-
-    app.get('/saewool', function (req, res) {
-        res.render('saewool.html');
-    });
-
-    app.get('/saewool/02', function (req, res) {
-        res.render('saewool-02.html');
-    });
-
-    app.get('/kori/', function (req, res) {
-        res.render('kori.html');
-    });
-
-    app.get('/kori/1', function (req, res) {
-        res.render('kori-1.html');
-    });
-
-    app.get('/kori/1/20200903/2', function (req, res) {
-        res.render('kori-1-20200903-2.html');
-    });
-
-    app.get('/kori/01', function (req, res) {
-        res.render('kori-01.html');
-    });
-
-    app.get('/kori/01/20200903/2', function (req, res) {
-        res.render('kori-01-20200903-2.html');
-    });
-
-    app.get('/kori/02', function (req, res) {
-        res.render('kori-02.html');
-    });
-
-    app.get('/kori/02/20200903/2', function (req, res) {
-        res.render('kori-02-20200903-2.html');
-    });
-
-    app.get('/kori/2', function (req, res) {
-        res.render('kori-2.html');
-    });
-
-    app.get('/kori/3', function (req, res) {
-        res.render('kori-3.html');
-    });
-
-    app.get('/kori/4', function (req, res) {
-        res.render('kori-4.html');
-    });
-
-    app.get('/kori/2/20200903/2', function (req, res) {
-        res.render('kori-2-20200903-2.html');
-    });
-
-    app.get('/kori/3/20200903/2', function (req, res) {
-        res.render('kori-3-20200903-2.html');
-    });
-
-    app.get('/kori/4/20200903/2', function (req, res) {
-        res.render('kori-4-20200903-2.html');
-    });
-
-    app.get('/kori/4/20190220/2', function (req, res) {
-        res.render('kori-4-20190220-2.html');
-    });
-
-    app.get('/kori/4/20190220/3', function (req, res) {
-        res.render('kori-4-20190220-3.html');
-    });
-
-    app.get('/hanwool/2/20190704/3', function (req, res) {
-        res.render('hanwool-2-20190704-3.html');
-    });
-
-    app.get('/hanwool/3', function (req, res) {
-        res.render('hanwool-3.html');
-    });
-
-    app.get('/hanwool/4', function (req, res) {
-        res.render('hanwool-4.html');
-    });
-
-    app.get('/hanwool/5', function (req, res) {
-        res.render('hanwool-5.html');
-    });
-
-    app.get('/hanwool/6', function (req, res) {
-        res.render('hanwool-6.html');
-    });
-
-    app.get('/hanwool/6/20190308/2', function (req, res) {
-        res.render('hanwool-6-20190308-2.html');
-    });
-
-    app.get('/hanwool/6/20190308/3', function (req, res) {
-        res.render('hanwool-6/20190308/3.html');
-    });
-
-    app.get('/hanwool/6/20200719/2', function (req, res) {
-        res.render('hanwool-6-20200719-2.html');
-    });
-
-    app.get('/hanwool/6/20200719/3', function (req, res) {
-        res.render('hanwool-6/20200719/3.html');
-    });
-
-    app.get('/saewool', function (req, res) {
-        res.render('saewool.html');
-    });
-
-    app.get('/saewool/02', function (req, res) {
-        res.render('saewool-02.html');
-    });
-
-    app.get('/kori/', function (req, res) {
-        res.render('kori.html');
-    });
-
-    app.get('/kori/1', function (req, res) {
-        res.render('kori-1.html');
-    });
-
-    app.get('/kori/1/20200903/2', function (req, res) {
-        res.render('kori-1-20200903-2.html');
-    });
-
-    app.get('/kori/01', function (req, res) {
-        res.render('kori-01.html');
-    });
-
-    app.get('/kori/01/20200903/2', function (req, res) {
-        res.render('kori-01-20200903-2.html');
-    });
-
-    app.get('/kori/02', function (req, res) {
-        res.render('kori-02.html');
-    });
-
-    app.get('/kori/02/20200903/2', function (req, res) {
-        res.render('kori-02-20200903-2.html');
-    });
-
-    app.get('/kori/2', function (req, res) {
-        res.render('kori-2.html');
-    });
-
-    app.get('/kori/3', function (req, res) {
-        res.render('kori-3.html');
-    });
-
-    app.get('/kori/4', function (req, res) {
-        res.render('kori-4.html');
-    });
-
-    app.get('/kori/2/20200903/2', function (req, res) {
-        res.render('kori-2-20200903-2.html');
-    });
-
-    app.get('/kori/3/20200903/2', function (req, res) {
-        res.render('kori-3-20200903-2.html');
-    });
-
-    app.get('/kori/4/20200903/2', function (req, res) {
-        res.render('kori-4-20200903-2.html');
-    });
-
-    app.get('/kori/4/20190220/2', function (req, res) {
-        res.render('kori-4-20190220-2.html');
-    });
-
-    app.get('/kori/4/20190220/3', function (req, res) {
-        res.render('kori-4-20190220-3.html');
-    });
 }

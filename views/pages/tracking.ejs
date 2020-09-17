@@ -1,0 +1,337 @@
+<%- include('../template/head')-%>
+
+<body>
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <div class="container">
+        <section class="tm-section-head" id="top">
+
+            <%- include('../template/nav')-%>
+
+        </section>
+
+        <p> </p>
+        <p> </p>
+        <p> </p>
+
+
+        <section class="tm-section-3 tm-section-mb" id="tm-section-3">
+            <p> HOME > <a href=/location/<%= tracks.locationUrl %>> <%= tracks.location %> </a>> <a
+                    href=/operation/<%= tracks.nameUrl %> </a> <%= tracks.name %> </a>> 사건탐색중</p> <table
+                    style="width:100%">
+                    <tr>
+                        <th></th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="boxGreen">
+                                <font color="white">30분 경과 보고서</font>
+                            </p>
+    </div>
+    </td>
+    <td>
+        <p class="circleGreen">
+            <font color="green"><%= tracks.value.after30 %></font>
+        </p>
+        </div>
+    </td>
+    </tr>
+
+    <tr>
+        <th></th>
+        <th colspan="2"></th>
+    </tr>
+    <tr>
+        <td>
+            <p class="boxGreen">
+                <font color="white">1시간 경과 보고서</font>
+            </p>
+            </div>
+        </td>
+        <td>
+            <p class="circleGreen">
+                <font color="green"><%= tracks.value.after60 %></font>
+            </p>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <th></th>
+        <th colspan="2"></th>
+    </tr>
+    <tr>
+        <td>
+            <p class="boxGreen">
+                <font color="white">4시간 경과 보고서</font>
+            </p>
+            </div>
+        </td>
+        <td>
+            <p class="circleGreen">
+                <font color="green"><%= tracks.value.after240 %></font>
+            </p>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <th></th>
+        <th colspan="2"></th>
+    </tr>
+    <tr>
+        <td>
+            <p class="boxOrange">
+                <font color="white">소방서 리포트</font>
+            </p>
+            </div>
+        </td>
+        <td>
+            <p class="circleOrange">
+                <font color="orange"><%= tracks.value.afterfirefight %></font>
+            </p>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <th></th>
+        <th colspan="2"></th>
+    </tr>
+    <tr>
+        <td>
+            <p class="boxRed">
+                <font color="white">KINS 리포트</font>
+            </p>
+            </div>
+        </td>
+        <td>
+            <p class="circleRed">
+                <font color="red"><%= tracks.value.afterkins %></font>
+            </p>
+            </div>
+        </td>
+    </tr>
+    </table>
+    <br>
+
+
+    </section>
+
+    <%- include('../template/footer')-%>
+    </div>
+
+    <!-- load JS files -->
+    <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <!-- https://popper.js.org/ -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- https://getbootstrap.com/ -->
+    <script type="text/javascript" src="/slick/slick.min.js"></script>
+    <!-- Slick Carousel -->
+
+    <script>
+        function setCarousel() {
+            var slider = $(' .tm-img-slider');
+            if (slider.hasClass('slick-initialized')) {
+                slider.slick('destroy');
+            }
+            if ($(window).width() > 991) {
+                // Slick carousel
+                slider.slick({
+                    autoplay: true,
+                    fade: true,
+                    speed: 800,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                });
+            } else {
+                slider.slick({
+                    autoplay: true,
+                    fade: true,
+                    speed: 800,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            if (renderPage) {
+                $('body').addClass('loaded');
+            }
+
+            setCarousel();
+
+            $(window).resize(function () {
+                setCarousel();
+            });
+
+            // Close menu after link click
+            $('.nav-link').click(function () {
+                $('#mainNav').removeClass('show');
+            });
+
+            // https://css-tricks.com/snippets/jquery/smooth-scrolling/
+            // Select all links with hashes
+            $('a[href*="#"]')
+                // Remove links that don't actually link to anything
+                .not('[href="#"]')
+                .not('[href="#0"]')
+                .click(function (event) {
+                    // On-page links
+                    if (
+                        location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') &&
+                        location.hostname == this.hostname
+                    ) {
+                        // Figure out element to scroll to
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        // Does a scroll target exist?
+                        if (target.length) {
+                            // Only prevent default if animation is actually gonna happen
+                            event.preventDefault();
+                            $('html, body').animate({
+                                scrollTop: target.offset().top + 1
+                            }, 1000, function () {
+                                // Callback after animation
+                                // Must change focus!
+                                var $target = $(target);
+                                $target.focus();
+                                if ($target.is(":focus")) { // Checking if the target was focused
+                                    return false;
+                                } else {
+                                    $target.attr('tabindex',
+                                        '-1'); // Adding tabindex for elements not focusable
+                                    $target.focus(); // Set focus again
+                                };
+                            });
+                        }
+                    }
+                });
+        });
+    </script>
+
+    <style>
+        table,
+        th,
+        td {
+            border: 0px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        .box1 {
+            border-radius: 0.5em;
+            -moz-border-radius: 0.5em;
+            -webkit-border-radius: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: red;
+            box-shadow: 10px 10px 5px;
+        }
+
+        .box2 {
+            border-radius: 0.5em;
+            -moz-border-radius: 0.5em;
+            -webkit-border-radius: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: gray;
+            box-shadow: 10px 10px 5px;
+        }
+
+        .blurBox1 {
+            box-shadow: 10px 10px 5px light gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blurBox2 {
+            box-shadow: 10px 10px 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blurBox3 {
+            box-shadow: 10px 10px 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .boxGreen {
+            color: white;
+            background-color: green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .boxOrange {
+            color: white;
+            background-color: orange;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .boxRed {
+            color: white;
+            background-color: red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circleGreen {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 3px solid green;
+            border- font-size: 16px;
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .circleOrange {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 3px solid orange;
+            font-size: 16px;
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .circleRed {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 3px solid red;
+            font-size: 16px;
+            text-align: center;
+            line-height: 25px;
+        }
+    </style>
+
+</body>
+
+</html>
