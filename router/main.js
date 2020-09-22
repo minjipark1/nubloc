@@ -155,10 +155,6 @@ const kori02Event = [{
         }
     }
 ]
-
-
-
-
 const kori03Event = [{
     "createdAt": "2019.05.10",
     "url": "kori.003.001",
@@ -171,18 +167,6 @@ const kori03Event = [{
         "afterkins": "2"
     },
     "reports": {
-        "name": "kori03",
-        "after30": "2",
-        "after60": "3",
-        "after240": "2",
-        "afterfirefight": "3",
-        "afterkins": "2"
-    }
-},
-{
-    "createdAt": "2019.06.10",
-    "url": "kori.003.002",
-    "values": {
         "name": "kori04",
         "after30": "2",
         "after60": "3",
@@ -191,19 +175,6 @@ const kori03Event = [{
         "afterkins": "2"
     }
 },
-{
-    "createdAt": "2019.08.10",
-    "url": "kori.003.003",
-    "values": {
-        "name": "kori04",
-        "after30": "13",
-        "after60": "3",
-        "after240": "2",
-        "afterfirefight": "3",
-        "afterkins": "2"
-    }
-}
-]
 
 module.exports = function (app) {
 
@@ -397,14 +368,6 @@ module.exports = function (app) {
                     value: kori02Event
                 }
                 break;
-            case 'b':
-                break;
-            default:
-                res.status(404).send('Unable to find the requested resource!');
-                break;
-        }
-
-        switch (detail) {
             case 'kori003':
                 events = {
                     name: "고리",
@@ -412,13 +375,31 @@ module.exports = function (app) {
                     value: kori03Event
                 }
                 break;
-            case 'b':
+             case 'kori004':
+                    events = {
+                        name: "고리",
+                        title: "4호기",
+                        value: kori04Event
+                    }
+                    break;
+              case 'kori011':
+                        events = {
+                            name: "고리",
+                            title: "신1호기",
+                            value: kori11Event
+                        }
+                        break;
+            case 'kori012':
+                events = {
+                    name: "고리",
+                    title: "신2호기",
+                    value: kori12Event
+                }
                 break;
             default:
                 res.status(404).send('Unable to find the requested resource!');
                 break;
         }
-
 
         console.log("events : ", events);
 
