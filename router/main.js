@@ -157,6 +157,54 @@ const kori02Event = [{
 ]
 
 
+
+
+const kori03Event = [{
+    "createdAt": "2019.05.10",
+    "url": "kori.003.001",
+    "values": {
+        "name": "kori04",
+        "after30": "2",
+        "after60": "3",
+        "after240": "2",
+        "afterfirefight": "3",
+        "afterkins": "2"
+    },
+    "reports": {
+        "name": "kori03",
+        "after30": "2",
+        "after60": "3",
+        "after240": "2",
+        "afterfirefight": "3",
+        "afterkins": "2"
+    }
+},
+{
+    "createdAt": "2019.06.10",
+    "url": "kori.003.002",
+    "values": {
+        "name": "kori04",
+        "after30": "2",
+        "after60": "3",
+        "after240": "2",
+        "afterfirefight": "3",
+        "afterkins": "2"
+    }
+},
+{
+    "createdAt": "2019.08.10",
+    "url": "kori.003.003",
+    "values": {
+        "name": "kori04",
+        "after30": "13",
+        "after60": "3",
+        "after240": "2",
+        "afterfirefight": "3",
+        "afterkins": "2"
+    }
+}
+]
+
 module.exports = function (app) {
 
     app.get('/', function (req, res) {
@@ -244,6 +292,7 @@ module.exports = function (app) {
 
         console.log("tracks : ", tracks);
         console.log(" kori02Event[2].values : ", kori02Event[2].values);
+        console.log(" kori03Event[2].values : ", kori03Event[2].values);
 
         res.render("pages/report", {
             tracks: tracks
@@ -326,6 +375,7 @@ module.exports = function (app) {
 
         console.log("tracks : ", tracks);
         console.log(" kori02Event[2].values : ", kori02Event[2].values);
+        console.log(" kori03Event[2].values : ", kori03Event[2].values);
 
         res.render("pages/tracking", {
             tracks: tracks
@@ -353,6 +403,22 @@ module.exports = function (app) {
                 res.status(404).send('Unable to find the requested resource!');
                 break;
         }
+
+        switch (detail) {
+            case 'kori003':
+                events = {
+                    name: "고리",
+                    title: "3호기",
+                    value: kori03Event
+                }
+                break;
+            case 'b':
+                break;
+            default:
+                res.status(404).send('Unable to find the requested resource!');
+                break;
+        }
+
 
         console.log("events : ", events);
 
