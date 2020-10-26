@@ -20,7 +20,8 @@
 
         <section class="tm-section-3 tm-section-mb" id="tm-section-3">
 
-            <p> HOME > <%= events.name %> > <%= events.title %></p>
+            <!-- <p> HOME > <%= events.name %> > <%= events.title %></p> -->
+            <p> HOME > <a href=/location/<%= tracks.locationUrl %>> <%= tracks.location %> </a> >  <%= events.title %>
             <table style="width:100%">
 
                 <% events.value.forEach(function(item){ %>
